@@ -1,0 +1,12 @@
+name: dirs
+description: Dir viewer
+
+dependencies:
+    browser: any
+    polymer: any
+    core_elements: any
+    paper_elements: any
+
+transformers:
+- polymer:
+    entry_points: web/index.html

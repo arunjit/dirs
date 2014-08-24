@@ -1,10 +1,12 @@
+<link rel="import" href="../../packages/core_elements/core_ajax_dart.html">
 <link rel="import" href="../../packages/core_elements/core_drawer_panel.html">
 <link rel="import" href="../../packages/core_elements/core_header_panel.html">
 <link rel="import" href="../../packages/core_elements/core_icons.html">
+<link rel="import" href="../../packages/core_elements/core_list_dart.html">
 <link rel="import" href="../../packages/core_elements/core_toolbar.html">
 <link rel="import" href="../../packages/paper_elements/paper_icon_button.html">
 <link rel="import" href="../../packages/paper_elements/roboto.html">
-<polymer-element name="dir-browser" attributes="path">
+<polymer-element name="dir-browser" attributes="baseUrl path">
   <template>
     <link rel="stylesheet" href="browser.css">
     <core-drawer-panel id="drawerPanel">
@@ -18,8 +20,22 @@
           <paper-icon-button icon="icons:menu" on-click="{{toggleSidebar}}"></paper-icon-button>
           <h3>{{currentDir}}</h3>
         </core-toolbar>
+        <core-list-dart id="list" data="{{items}}">
+          <template>
+            <span>{{name}}</span>
+          </template>
+        </core-list-dart>
       </core-header-panel>
     </core-drawer-panel>
+
+    <!-- Request -->
+    <core-ajax-dart id="xhr"
+                    auto
+                    handleAs="json"
+                    params="{}"
+                    method="GET"
+                    on-core-response="{{update}}">
+    </core-ajax-dart>
   </template>
   <script type="application/dart" src="browser.dart"></script>
 </polymer-element>

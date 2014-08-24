@@ -6,6 +6,8 @@ dependencies:
     polymer: any
     core_elements: any
     paper_elements: any
+    logging: any
+    quiver: any
 
 transformers:
 - polymer:

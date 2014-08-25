@@ -1,0 +1,10 @@
+:host {
+  display: block;
+  height: 100%;
+}
+[drawer] core-toolbar {
+  background-color: #a4dcff;
+}
+[main] core-toolbar {
+  background-color: #9acaf1;
+}

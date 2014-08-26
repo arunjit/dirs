@@ -3,10 +3,8 @@ var gulp = require('gulp');
 
 var connect = require('gulp-connect');
 var filter = require('gulp-filter');
-var gutil = require('gulp-util');
-var plumber = require('gulp-plumber');
 var rimraf = require('gulp-rimraf');
-var roole = require('gulp-roole');
+var roole = require('./plugins/gulp-roole-2');
 var symlink = require('gulp-sym');
 var watch = require('gulp-watch');
 
@@ -44,21 +42,20 @@ gulp.task('symlink-packages', function() {
 
 gulp.task('roole', function() {
   return gulp.src(['src/**/*.roo'])
-      .pipe(roole())
+      .pipe(roole({logErrors: true}))
       .pipe(gulp.dest(DEV));
 });
 
 gulp.task('watch-srcs', function() {
   return watch({glob: ['src/**/*.*', '!src/**/*.roo'], name: 'srcs'})
       .pipe(filter(isAdded))
-      .pipe(plumber())
       .pipe(symlink(linkFile, {force: true}));
 });
 
 gulp.task('watch-roole', function() {
   return watch({glob: ['src/**/*.roo'], name: 'roole'})
       .pipe(filter(isModified))
-      .pipe(roole().on('error', gutil.log))
+      .pipe(roole({logErrors: true}))
       .pipe(gulp.dest(DEV));
 });
 

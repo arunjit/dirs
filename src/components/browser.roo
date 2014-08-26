@@ -1,10 +1,19 @@
 :host {
   display: block;
   height: 100%;
+  font-family: RobotoDraft, Arial, sans-serif;
+}
+[drawer] {
+  background-color: #f5f5f5;
 }
 [drawer] core-toolbar {
-  background-color: #a4dcff;
+  background-color: #faca31;
+  color: #444;
+}
+[main] {
+  background-color: #fff;
 }
 [main] core-toolbar {
-  background-color: #9acaf1;
+  background-color: #e4dc3f;
+  color: #333;
 }

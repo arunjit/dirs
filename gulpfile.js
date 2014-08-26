@@ -3,6 +3,7 @@ var gulp = require('gulp');
 
 var connect = require('gulp-connect');
 var filter = require('gulp-filter');
+var plumber = require('gulp-plumber');
 var rimraf = require('gulp-rimraf');
 var roole = require('gulp-roole');
 var symlink = require('gulp-sym');
@@ -23,6 +24,11 @@ function isModified(file) {
 function linkFile(file) {
   return path.join(path.dirname(file.base), DEV, file.relative);
 }
+
+//function swallowError(error) {
+  //console.log(error.toString());
+  ////this.emit('end');
+//}
 
 gulp.task('clean', function() {
   return gulp.src('build', {read: false})
@@ -49,12 +55,14 @@ gulp.task('roole', function() {
 gulp.task('watch-srcs', function() {
   return watch({glob: ['src/**/*.*', '!src/**/*.roo'], name: 'srcs'})
       .pipe(filter(isAdded))
+      .pipe(plumber())
       .pipe(symlink(linkFile, {force: true}));
 });
 
 gulp.task('watch-roole', function() {
   return watch({glob: ['src/**/*.roo'], name: 'roole'})
       .pipe(filter(isModified))
+      .pipe(plumber())
       .pipe(roole())
       .pipe(gulp.dest(DEV));
 });

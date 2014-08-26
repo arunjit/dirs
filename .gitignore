@@ -1,4 +1,6 @@
-packages
 .*
 !.gitignore
+!.bowerrc
 build
+node_modules
+packages

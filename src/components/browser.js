@@ -41,6 +41,10 @@ Polymer('dir-browser', {
     var items = http.response.map(function(item) {
       item.route = createRoute(item.path);
       return item;
+    }).sort(function(a, b) {
+      a = a.name.toLowerCase();
+      b = b.name.toLowerCase();
+      return a == b ? 0 : a < b ? -1 : 1;
     });
     this.dirs = items.filter(function(item) {
       return item.is_dir;

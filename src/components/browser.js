@@ -22,11 +22,7 @@ Polymer('dir-browser', {
   },
   ready: function() {
     log('dir-browser ready');
-    if (!this.route) {
-      this.path = this.start || '/';
-    } else {
-      this.path = createPath(this.route);
-    }
+    this.path = this.route ? createPath(this.route) : this.start || '/';
   },
   pathChanged: function() {
     log('pathChanged', this.path);

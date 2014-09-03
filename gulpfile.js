@@ -16,8 +16,8 @@ function isAdded(file) {
   return file.event === 'added';
 }
 
-function isModified(file) {
-  return file.event === 'changed';
+function isWritten(file) {
+  return file.event === 'added' || file.event === 'changed';
 }
 
 function linkFile(file) {
@@ -42,7 +42,7 @@ gulp.task('symlink-packages', function() {
 
 gulp.task('roole', function() {
   return gulp.src(['src/**/*.roo'])
-      .pipe(roole({logErrors: true}))
+      .pipe(roole())
       .pipe(gulp.dest(DEV));
 });
 
@@ -54,7 +54,7 @@ gulp.task('watch-srcs', function() {
 
 gulp.task('watch-roole', function() {
   return watch({glob: ['src/**/*.roo'], name: 'roole'})
-      .pipe(filter(isModified))
+      .pipe(filter(isWritten))
       .pipe(roole({logErrors: true}))
       .pipe(gulp.dest(DEV));
 });

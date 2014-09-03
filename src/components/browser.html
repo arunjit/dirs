@@ -21,11 +21,13 @@
           <paper-icon-button icon="icons:menu" on-click="{{toggleSidebar}}"></paper-icon-button>
           <h3>{{currentDir}}</h3>
         </core-toolbar>
+        <ul>
         <template repeat="{{dirs}}">
-          <div class="item">
+          <li class="item">
             <a href="#{{route}}">{{name}}</a>
-          </div>
+          </li>
         </template>
+        </ul>
       </core-header-panel>
     </core-drawer-panel>
 

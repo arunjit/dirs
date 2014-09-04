@@ -1,0 +1,10 @@
+<polymer-element name="dir-imageset">
+  <template>
+    <link rel="stylesheet" href="imageset.css">
+    <div fit horizontal center center-justified layout
+         touch-action="none" on-trackstart="{{trackstart}}" on-trackend="{{trackend}}">
+      <img src="{{currentImage}}">
+    </div>
+  </template>
+  <script src="imageset.js"></script>
+</polymer-element>

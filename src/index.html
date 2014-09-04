@@ -7,6 +7,14 @@
           content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
     <title>Dirs</title>
     <script src="packages/platform/platform.js"></script>
+    <script>
+      window.debug = true;
+      function log() {
+        if (window.debug) {
+          console.log.apply(console, arguments);
+        }
+      }
+    </script>
 
     <!-- The app as a component -->
     <link rel="import" href="components/browser.html">
@@ -14,6 +22,5 @@
   </head>
   <body unresolved touch-action="auto">
     <dir-browser base="//127.0.0.1:1600/p" start="/"></dir-browser>
-    <script>window.debug = false;</script>
   </body>
 </html>

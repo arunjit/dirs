@@ -1,26 +1,15 @@
-function log() {
-  if (window.debug) {
-    console.log.apply(console, arguments);
-  }
-}
 function createRoute(path) {
   return path.substring(1).replace(/\//g, '|');
 }
 function createPath(route) {
   return '/' + route.replace(/\|/g, '/');
 }
-function goBack(route) {
-  return route.substring(0, route.lastIndexOf('|'));
-}
-
 
 Polymer('dir-browser', {
   // Data
   dirs: [],
   images: [],
   currentDir: '',
-  currentImage: '',
-  currentImageIndex: -1,
   // Layout and controls
   currentPage: 0,
   hideImageControls: true,
@@ -43,6 +32,7 @@ Polymer('dir-browser', {
   },
   routeChanged: function() {
     log('routeChanged', this.route);
+    this._hidePreview();
     this.path = createPath(this.route);
   },
   update: function(event, http) {
@@ -62,47 +52,31 @@ Polymer('dir-browser', {
     });
     log(this.dirs.length, this.images.length);
     if (!this.dirs.length) {
-      this.togglePreview();
+      this._showPreview();
     }
   },
   togglePreview: function() {
-    if (this.currentPage == 0) {
-      log('Showing preview');
+    this.currentPage == 0 ? this._showPreview() : this._hidePreview(true);
+  },
+  _showPreview: function() {
+    log('Showing preview');
       this.$.pager.selected = this.currentPage = 1;
-      this.currentImageIndex = 0;  // TODO: settings (reset image index)
-    } else {
-      log('Hiding preview');
-      this.$.pager.selected = this.currentPage = 0;
-      this.hideImageControls = true;
-      if (!this.dirs.length) {
-        window.history.back();  // TODO: yikes. this.$.router.router.???();
-      }
+      this.$.imageset.images = this.images;
+  },
+  _hidePreview: function(goBack) {
+    log('Hiding preview');
+    this.$.pager.selected = this.currentPage = 0;
+    this.$.imageset.images = [];
+    this.hideImageControls = true;
+    if (goBack && !this.dirs.length) {
+      window.history.back();  // TODO: yikes. this.$.router.router.???();
     }
   },
   toggleImageControls: function(event) {
     event && event.stopPropagation();
     this.hideImageControls = !this.hideImageControls;
   },
-  currentImageIndexChanged: function() {
-    log('imageIndexChanged', this.currentImageIndex);
-    if (this.images.length) {
-      this.currentImage = this._getCurrentImage().path;
-      log('currentImage', this.currentImage);
-    }
-  },
-  _nextImage: function() {
-    return this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
-  },
-  _previousImage: function() {
-    return this.currentImageIndex = (this.currentImageIndex <= 0 ? this.images.length : this.currentImageIndex) - 1;
-  },
-  _getCurrentImage: function() {
-    return this.images[this.currentImageIndex % this.images.length];
-  },
   toggleSettings: function() {
     this.$.mainpage.togglePanel();
-  },
-  test: function() {
-    alert('test');
   }
 });

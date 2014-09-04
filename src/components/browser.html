@@ -7,6 +7,7 @@
 <link rel="import" href="../packages/font-roboto/roboto.html">
 <link rel="import" href="../packages/flatiron-director/flatiron-director.html">
 <link rel="import" href="../packages/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="imageset.html">
 <polymer-element name="dir-browser" attributes="base start">
   <template>
     <link rel="stylesheet" href="browser.css">
@@ -40,8 +41,8 @@
         <core-toolbar hidden?="{{hideImageControls}}">
           <paper-icon-button icon="icons:arrow-back" on-tap="{{togglePreview}}"></paper-icon-button>
         </core-toolbar>
-        <section id="preview" on-tap="{{toggleImageControls}}" fit horizontal center center-justified layout>
-          <img src="{{currentImage}}" on-tap="{{toggleImageControls}}" touch-action="pan-x">
+        <section id="preview" on-tap="{{toggleImageControls}}" fit>
+          <dir-imageset id="imageset"></dir-imageset>
         </section>
       </core-header-panel>
     </core-animated-pages>

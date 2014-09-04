@@ -8,7 +8,7 @@ core-drawer-panel:not([narrow]) [icon="icons:menu"] {
   display: none;
 }
 
-[drawer], [main] {
+[main] {
   background-color: #fff;
 
   & core-toolbar {

@@ -1,0 +1,7 @@
+<link rel="import" href="../packages/core-localstorage/core-localstorage.html">
+
+<polymer-element name="dir-setting" attributes="name value" noscript>
+  <template>
+    <core-localstorage name="dir-{{name}}" value="{{value}}"></core-localstorage>
+  </template>
+</polymer-element>

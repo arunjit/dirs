@@ -1,0 +1,26 @@
+<link rel="import" href="../packages/core-item/core-item.html">
+<link rel="import" href="../packages/core-toolbar/core-toolbar.html">
+<link rel="import" href="../packages/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../packages/paper-input/paper-input.html">
+<link rel="import" href="setting.html">
+
+<polymer-element name="dir-settings" noscript>
+  <template>
+    <link rel="stylesheet" href="settings.css">
+    <core-toolbar>
+      <h4>Settings</h4>
+    </core-toolbar>
+    <core-item>
+      <paper-input floatinglabel placeholder="Directory server" value="{{dirsBase}}"></paper-input>
+    </core-item>
+    <core-item>
+      <paper-input floatinglabel placeholder="Images server" value="{{imagesBase}}"></paper-input>
+    </core-item>
+    <core-item>
+      <paper-checkbox value="{{debug}}"></paper-checkbox><label>Debug</label>
+    </core-item>
+    <dir-setting name="dirs-base" value="{{dirsBase}}"></dir-setting>
+    <dir-setting name="images-base" value="{{imagesBase}}"></dir-setting>
+    <dir-setting name="debug" value="{{debug}}"></dir-setting>
+  </template>
+</polymer-element>

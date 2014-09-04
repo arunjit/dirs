@@ -1,0 +1,16 @@
+:host {
+  background-color: #fff;
+}
+
+core-toolbar {
+  background-color: #00695c;
+  color: #eee;
+}
+
+core-item {
+  padding: 5px 10px;
+}
+
+paper-checkbox + label {
+  margin-left: 10px;
+}

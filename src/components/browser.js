@@ -24,7 +24,12 @@ Polymer('dir-browser', {
     log('dir-browser ready');
     this.path = this.route ? createPath(this.route) : this.start || '/';
   },
+  baseChanged: function(o, n) {
+    log('baseChanged', o, '->', n);
+    this.pathChanged();
+  },
   pathChanged: function() {
+    if (!this.base || !this.path) return;
     log('pathChanged', this.path);
     this.currentDir = this.path.substring(this.path.lastIndexOf('/') + 1) || '/';
     this.$.xhr.url = this.base + this.path;

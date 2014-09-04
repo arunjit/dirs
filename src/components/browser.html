@@ -8,6 +8,8 @@
 <link rel="import" href="../packages/flatiron-director/flatiron-director.html">
 <link rel="import" href="../packages/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="imageset.html">
+<link rel="import" href="setting.html">
+<link rel="import" href="settings.html">
 <polymer-element name="dir-browser" attributes="base start">
   <template>
     <link rel="stylesheet" href="browser.css">
@@ -15,13 +17,8 @@
 
     <core-animated-pages id="pager" transitions="slide-from-right" fit>
       <core-drawer-panel id="mainpage" fit>
-
         <core-header-panel drawer fit>
-          <core-toolbar>
-            <h4>Settings</h4>
-          </core-toolbar>
-          <!-- core-item#auto-show-preview -->
-          <!-- core-item#auto-show-controls -->
+          <dir-settings fit></dir-settings>
         </core-header-panel>
         <core-header-panel main fit>
           <core-toolbar>
@@ -55,6 +52,7 @@
                method="GET"
                on-core-response="{{update}}">
     </core-ajax>
+    <dir-setting name="dirs-base" value="{{base}}"></dir-setting>
   </template>
   <script src="browser.js"></script>
 </polymer-element>

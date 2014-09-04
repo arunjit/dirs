@@ -1,14 +1,18 @@
-function createRoute(path) {
-  return encodeURIComponent(path.substring(1));
-}
-function createPath(route) {
-  return '/' + decodeURIComponent(route);
-}
 function log() {
   if (window.debug) {
     console.log.apply(console, arguments);
   }
 }
+function createRoute(path) {
+  return path.substring(1).replace(/\//g, '|');
+}
+function createPath(route) {
+  return '/' + route.replace(/\|/g, '/');
+}
+function goBack(route) {
+  return route.substring(0, route.lastIndexOf('|'));
+}
+
 
 Polymer('dir-browser', {
   // Data
@@ -16,7 +20,7 @@ Polymer('dir-browser', {
   images: [],
   currentDir: '',
   currentImage: '',
-  currentImageIndex: 0,
+  currentImageIndex: -1,
   // Layout and controls
   currentPage: 0,
   hideImageControls: true,
@@ -56,6 +60,7 @@ Polymer('dir-browser', {
     this.images = items.filter(function(item) {
       return item.name.match(/\.(jpe?g|png|webp|gif|bmp)$/);
     });
+    log(this.dirs.length, this.images.length);
     if (!this.dirs.length) {
       this.togglePreview();
     }
@@ -69,6 +74,9 @@ Polymer('dir-browser', {
       log('Hiding preview');
       this.$.pager.selected = this.currentPage = 0;
       this.hideImageControls = true;
+      if (!this.dirs.length) {
+        this.route = goBack(this.route);
+      }
     }
   },
   toggleImageControls: function(event) {

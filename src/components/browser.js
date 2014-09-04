@@ -11,9 +11,16 @@ function log() {
 }
 
 Polymer('dir-browser', {
+  // Data
   dirs: [],
   images: [],
   currentDir: '',
+  currentImage: '',
+  currentImageIndex: 0,
+  // Layout and controls
+  currentPage: 0,
+  hideImageControls: true,
+  // Functional
   route: '',
   path: '',
   publish: {
@@ -34,9 +41,6 @@ Polymer('dir-browser', {
     log('routeChanged', this.route);
     this.path = createPath(this.route);
   },
-  toggleSidebar: function() {
-    this.$.drawerPanel.togglePanel();
-  },
   update: function(event, http) {
     var items = http.response.map(function(item) {
       item.route = createRoute(item.path);
@@ -52,5 +56,41 @@ Polymer('dir-browser', {
     this.images = items.filter(function(item) {
       return item.name.match(/\.(jpe?g|png|webp|gif|bmp)$/);
     });
+    // if (!this.dirs.length) {
+    //   this.togglePreview();
+    // }
+  },
+  togglePreview: function() {
+    log(this.$.pager.selected, this.currentPage);
+    this.$.pager.selected = this.currentPage = (this.currentPage + 1) % 2;
+    // if (this.currentPage == 1) {
+    //   // Showing preview
+    //   this.currentImageIndex = 0;
+    // } else {
+    //   // Going back to main
+    //   this.hideImageControls = true;
+    // }
+    log(this.$.pager.selected, this.currentPage);
+  },
+  toggleImageControls: function(event) {
+    event && event.stopPropagation();
+    this.hideImageControls = !this.hideImageControls;
+  },
+  currentImageIndexChanged: function() {
+    if (this.images.length) {
+      this.currentImage = this._getCurrentImage().path;
+    }
+  },
+  _nextImage: function() {
+    return this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+  },
+  _previousImage: function() {
+    return this.currentImageIndex = (this.currentImageIndex <= 0 ? this.images.length : this.currentImageIndex) - 1;
+  },
+  _getCurrentImage: function() {
+    return this.images[this.currentImageIndex % this.images.length];
+  },
+  toggleSettings: function() {
+    this.$.mainpage.togglePanel();
   }
 });

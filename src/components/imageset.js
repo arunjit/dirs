@@ -1,5 +1,3 @@
-var OVERRIDE = "http://127.0.0.1";
-
 Polymer('dir-imageset', {
   currentImage: '',
   currentImageIndex: -1,
@@ -11,7 +9,7 @@ Polymer('dir-imageset', {
   currentImageIndexChanged: function() {
     log('currentImageIndexChanged', this.currentImageIndex);
     if (this.currentImageIndex >= 0 && this.images.length) {
-      this.currentImage = OVERRIDE + this._getCurrentImage().path;
+      this.currentImage = this._getCurrentImage().path;
     } else {
       this.currentImage = '';
     }

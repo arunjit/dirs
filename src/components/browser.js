@@ -56,29 +56,30 @@ Polymer('dir-browser', {
     this.images = items.filter(function(item) {
       return item.name.match(/\.(jpe?g|png|webp|gif|bmp)$/);
     });
-    // if (!this.dirs.length) {
-    //   this.togglePreview();
-    // }
+    if (!this.dirs.length) {
+      this.togglePreview();
+    }
   },
   togglePreview: function() {
-    log(this.$.pager.selected, this.currentPage);
-    this.$.pager.selected = this.currentPage = (this.currentPage + 1) % 2;
-    // if (this.currentPage == 1) {
-    //   // Showing preview
-    //   this.currentImageIndex = 0;
-    // } else {
-    //   // Going back to main
-    //   this.hideImageControls = true;
-    // }
-    log(this.$.pager.selected, this.currentPage);
+    if (this.currentPage == 0) {
+      log('Showing preview');
+      this.$.pager.selected = this.currentPage = 1;
+      this.currentImageIndex = 0;  // TODO: settings (reset image index)
+    } else {
+      log('Hiding preview');
+      this.$.pager.selected = this.currentPage = 0;
+      this.hideImageControls = true;
+    }
   },
   toggleImageControls: function(event) {
     event && event.stopPropagation();
     this.hideImageControls = !this.hideImageControls;
   },
   currentImageIndexChanged: function() {
+    log('imageIndexChanged', this.currentImageIndex);
     if (this.images.length) {
       this.currentImage = this._getCurrentImage().path;
+      log('currentImage', this.currentImage);
     }
   },
   _nextImage: function() {
@@ -92,5 +93,8 @@ Polymer('dir-browser', {
   },
   toggleSettings: function() {
     this.$.mainpage.togglePanel();
+  },
+  test: function() {
+    alert('test');
   }
 });

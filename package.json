@@ -17,6 +17,7 @@
     "gulp-rimraf": "^0.1.0",
     "gulp-sym": "0.0.13",
     "gulp-util": "^3.0.0",
+    "gulp-vulcanize": "^1.0.0",
     "gulp-watch": "^0.6.8",
     "roole": "^0.9.0",
     "through2": "^0.6.1"

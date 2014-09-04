@@ -10,7 +10,7 @@
 <polymer-element name="dir-browser" attributes="base start">
   <template>
     <link rel="stylesheet" href="browser.css">
-    <flatiron-director route="{{route}}" autoHash></flatiron-director>
+    <flatiron-director id="router" route="{{route}}" autoHash></flatiron-director>
 
     <core-animated-pages id="pager" transitions="slide-from-right" fit>
       <core-drawer-panel id="mainpage" fit>

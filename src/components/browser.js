@@ -75,7 +75,7 @@ Polymer('dir-browser', {
       this.$.pager.selected = this.currentPage = 0;
       this.hideImageControls = true;
       if (!this.dirs.length) {
-        this.route = goBack(this.route);
+        window.history.back();  // TODO: yikes. this.$.router.router.???();
       }
     }
   },

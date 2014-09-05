@@ -29,21 +29,11 @@ gulp.task('clean', function() {
       .pipe(rimraf({force: true}));
 });
 
-
-gulp.task('symlink', function() {
-  return gulp.src(['src/**/*.*', '!src/**/*.roo']).
-    pipe(symlink(linkFile, {force: true}));
-});
+// DEVELOPMENT
 
 gulp.task('symlink-packages', function() {
   return gulp.src('packages', {read: false})
       .pipe(symlink(path.join(DEV, 'packages'), {force: true}));
-});
-
-gulp.task('roole', function() {
-  return gulp.src(['src/**/*.roo'])
-      .pipe(roole())
-      .pipe(gulp.dest(DEV));
 });
 
 gulp.task('watch-srcs', function() {
@@ -66,15 +56,28 @@ gulp.task('devserver', function() {
   });
 });
 
-gulp.task('build-dev', [
-  'symlink',
+gulp.task('dev', [
   'symlink-packages',
-  'roole'
-]);
-
-gulp.task('run-dev', [
-  'build-dev',
   'watch-roole',
   'watch-srcs',
   'devserver'
+]);
+
+
+// PRODUCTION
+
+gulp.task('copy', function() {
+  return gulp.src(['src/**/*.*', '!src/**/*.roo']).
+    pipe(gulp.dest(DIST));
+});
+
+gulp.task('roole', function() {
+  return gulp.src(['src/**/*.roo'])
+      .pipe(roole())
+      .pipe(gulp.dest(DIST));
+});
+
+gulp.task('dist', [
+  'copy',
+  'roole'
 ]);

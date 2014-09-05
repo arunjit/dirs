@@ -66,10 +66,14 @@ gulp.task('devserver', function() {
   });
 });
 
-gulp.task('default', [
+gulp.task('build-dev', [
   'symlink',
   'symlink-packages',
-  'roole',
+  'roole'
+]);
+
+gulp.task('run-dev', [
+  'build-dev',
   'watch-roole',
   'watch-srcs',
   'devserver'

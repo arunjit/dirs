@@ -65,8 +65,8 @@ Polymer('dir-browser', {
   },
   _showPreview: function() {
     log('Showing preview');
-      this.$.pager.selected = this.currentPage = 1;
-      this.$.imageset.images = this.images;
+    this.$.pager.selected = this.currentPage = 1;
+    this.$.imageset.images = this.images;
   },
   _hidePreview: function(goBack) {
     log('Hiding preview');

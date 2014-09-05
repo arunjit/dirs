@@ -31,9 +31,20 @@ gulp.task('clean', function() {
 
 // DEVELOPMENT
 
+gulp.task('symlink', function() {
+  return gulp.src(['src/**/*.*', '!src/**/*.roo'])
+      .pipe(symlink(linkFile, {force: true}));
+});
+
 gulp.task('symlink-packages', function() {
   return gulp.src('packages', {read: false})
       .pipe(symlink(path.join(DEV, 'packages'), {force: true}));
+});
+
+gulp.task('roole-dev', function() {
+  return gulp.src(['src/**/*.roo'])
+      .pipe(roole())
+      .pipe(gulp.dest(DEV));
 });
 
 gulp.task('watch-srcs', function() {
@@ -57,7 +68,9 @@ gulp.task('devserver', function() {
 });
 
 gulp.task('dev', [
+  'symlink',
   'symlink-packages',
+  'roole-dev',
   'watch-roole',
   'watch-srcs',
   'devserver'

@@ -1,5 +1,5 @@
 function createRoute(path) {
-  return path.substring(1).replace(/\//g, '|');
+  return path.replace(/^\//, '').replace(/\//g, '|');
 }
 function createPath(route) {
   return '/' + route.replace(/\|/g, '/');

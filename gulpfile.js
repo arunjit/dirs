@@ -3,14 +3,18 @@ var gulp = require('gulp');
 
 var connect = require('gulp-connect');
 var filter = require('gulp-filter');
+var mincss = require('gulp-minify-css');
 var rimraf = require('gulp-rimraf');
 var roole = require('./plugins/gulp-roole-2');
 var symlink = require('gulp-sym');
+var uglify = require('gulp-uglify');
+var vulcanize = require('gulp-vulcanize');
 var watch = require('gulp-watch');
 
 var SRC = 'src';
 var DEV = 'build/dev';
-var DIST = 'build/dist'
+var DIST = 'build/dist';
+var TMP = 'build/tmp';
 
 function isAdded(file) {
   return file.event === 'added';
@@ -36,7 +40,7 @@ gulp.task('symlink', function() {
       .pipe(symlink(linkFile, {force: true}));
 });
 
-gulp.task('symlink-packages', function() {
+gulp.task('symlink-packages-dev', function() {
   return gulp.src('packages', {read: false})
       .pipe(symlink(path.join(DEV, 'packages'), {force: true}));
 });
@@ -69,7 +73,7 @@ gulp.task('devserver', function() {
 
 gulp.task('dev', [
   'symlink',
-  'symlink-packages',
+  'symlink-packages-dev',
   'roole-dev',
   'watch-roole',
   'watch-srcs',
@@ -79,18 +83,38 @@ gulp.task('dev', [
 
 // PRODUCTION
 
-gulp.task('copy', function() {
-  return gulp.src(['src/**/*.*', '!src/**/*.roo']).
-    pipe(gulp.dest(DIST));
+gulp.task('symlink-packages', function() {
+  return gulp.src('packages', {read: false})
+      .pipe(symlink(path.join(TMP, 'packages'), {force: true}));
 });
 
-gulp.task('roole', function() {
+gulp.task('html', function() {
+  return gulp.src('src/**/*.html')
+      .pipe(gulp.dest(TMP));
+});
+
+gulp.task('js', function() {
+  return gulp.src('src/**/*.js')
+      .pipe(uglify())
+      .pipe(gulp.dest(TMP));
+})
+
+gulp.task('css', function() {
   return gulp.src(['src/**/*.roo'])
       .pipe(roole())
+      .pipe(mincss())
+      .pipe(gulp.dest(TMP));
+});
+
+gulp.task('dist', ['symlink-packages', 'html', 'js', 'css'], function() {
+  return gulp.src(path.join(TMP, 'index.html'))
+      .pipe(vulcanize({dest: DIST, inline: true, strip: true}))
       .pipe(gulp.dest(DIST));
 });
 
-gulp.task('dist', [
-  'copy',
-  'roole'
-]);
+gulp.task('dist-serve', ['dist'], function() {
+  connect.server({
+    root: DIST,
+    port: 8000
+  });
+});

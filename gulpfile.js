@@ -51,6 +51,12 @@ gulp.task('roole-dev', function() {
       .pipe(gulp.dest(DEV));
 });
 
+gulp.task('dev', [
+  'symlink',
+  'symlink-packages-dev',
+  'roole-dev'
+]);
+
 gulp.task('watch-srcs', function() {
   return watch({glob: ['src/**/*.*', '!src/**/*.roo'], name: 'srcs'})
       .pipe(filter(isAdded))
@@ -64,21 +70,12 @@ gulp.task('watch-roole', function() {
       .pipe(gulp.dest(DEV));
 });
 
-gulp.task('devserver', function() {
+gulp.task('dev-serve', ['dev', 'watch-srcs', 'watch-roole'], function() {
   connect.server({
     root: DEV,
     port: 8000
   });
 });
-
-gulp.task('dev', [
-  'symlink',
-  'symlink-packages-dev',
-  'roole-dev',
-  'watch-roole',
-  'watch-srcs',
-  'devserver'
-]);
 
 
 // PRODUCTION
@@ -95,7 +92,7 @@ gulp.task('html', function() {
 
 gulp.task('js', function() {
   return gulp.src('src/**/*.js')
-      .pipe(uglify())
+      //.pipe(uglify())
       .pipe(gulp.dest(TMP));
 })
 

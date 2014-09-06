@@ -3,13 +3,14 @@ Polymer('dir-imageset', {
   currentImageIndex: -1,
   images: [],
   base: '',
+  baseChanged: function(o, n) {
+    log('baseChanged', o, '->', n);
+  },
   imagesChanged: function() {
-    if (!this.base) return;
     log('imageset: loading new images', this.images);
     this.currentImageIndex = this.images.length ? 0 : -1;
   },
   currentImageIndexChanged: function() {
-    if (!this.base) return;
     log('currentImageIndexChanged', this.currentImageIndex);
     if (this.currentImageIndex >= 0 && this.images.length) {
       this.currentImage = this.base + this._getCurrentImage().path;

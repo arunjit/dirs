@@ -4,6 +4,9 @@ function createRoute(path) {
 function createPath(route) {
   return '/' + route.replace(/\|/g, '/');
 }
+function basename(path) {
+  return path.substring(path.lastIndexOf('/') + 1) || '/';
+}
 
 Polymer('dir-browser', {
   // Data
@@ -21,17 +24,21 @@ Polymer('dir-browser', {
     start: ''
   },
   ready: function() {
-    log('dir-browser ready');
+    log('dir-browser ready', this.base, this.start);
     this.path = this.route ? createPath(this.route) : this.start || '/';
   },
   baseChanged: function(o, n) {
     log('baseChanged', o, '->', n);
+    if (!this.base) {
+      this.base = o;
+      return;
+    }
     this.pathChanged();
   },
   pathChanged: function() {
-    if (!this.base || !this.path) return;
     log('pathChanged', this.path);
-    this.currentDir = this.path.substring(this.path.lastIndexOf('/') + 1) || '/';
+    if (!this.path) return;
+    this.currentDir = basename(this.path);
     this.$.xhr.url = this.base + this.path;
     this.$.xhr.go();
   },
